@@ -1,3 +1,4 @@
+
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
@@ -77,6 +78,13 @@ app.use('/api/categories', require('./routes/categoryRoutes'));
 app.use('/api/comments', require('./routes/commentRoutes'));
 app.use('/api/contact', require('./routes/contactRoutes'));
 
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => {
+        console.log("MongoDB Connected Successfully");
+    })
+    .catch((error) => {
+        console.error("MongoDB Connection Error:", error);
+    });
 const PORT = Number(process.env.PORT) || 5000;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT}`);
