@@ -166,7 +166,7 @@ app.use((req, res) => {
 });
 
 // ===============================
-// ERROR HANDLER
+// ERROR HANDLERa
 // ===============================
 app.use((err, req, res, next) => {
     console.error('Server Error:', err);
