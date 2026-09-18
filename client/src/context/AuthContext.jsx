@@ -1,4 +1,4 @@
-```jsx
+jsx
 import { createContext, useEffect, useState } from 'react';
 import API from '../services/api';
 
@@ -151,4 +151,3 @@ export const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     );
 };
-```
