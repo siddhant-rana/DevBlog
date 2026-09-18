@@ -1,4 +1,3 @@
-
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
@@ -9,83 +8,169 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors({ origin: 'https://devblog-2-y4e2.onrender.com' }));
+// ===============================
+// CORS
+// ===============================
+app.use(
+    cors({
+        origin: 'https://devblog-2-y4e2.onrender.com',
+        credentials: true
+    })
+);
+
+// ===============================
+// BODY PARSER
+// ===============================
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+// ===============================
+// DATABASE CONNECTION
+// ===============================
 const safeConnect = async () => {
     if (!process.env.MONGO_URI) {
-        console.log('MongoDB URI not set. Running in demo mode with mock data.');
+        console.log(
+            'MongoDB URI not set. Running in demo mode with mock data.'
+        );
         return;
     }
 
     try {
         await connectDB();
+        console.log('MongoDB Connected Successfully');
     } catch (error) {
-        console.warn('Database connection failed, continuing in demo mode.', error.message);
+        console.warn(
+            'Database connection failed, continuing in demo mode.',
+            error.message
+        );
     }
 };
 
 safeConnect();
 
+// ===============================
+// HEALTH CHECK
+// ===============================
 app.get('/api/health', (req, res) => {
-    res.json({ status: 'ok', message: 'MERN Dev Blog API is running' });
+    res.json({
+        status: 'ok',
+        message: 'MERN Dev Blog API is running'
+    });
 });
 
+// ===============================
+// DEMO BLOGS
+// ===============================
 app.get('/api/blogs', (req, res) => {
-    const { category = 'All', search = '', page = 1 } = req.query;
+    const {
+        category = 'All',
+        search = '',
+        page = 1
+    } = req.query;
+
     const normalizedCategory = String(category || 'All');
-    const normalizedSearch = String(search || '').trim().toLowerCase();
+    const normalizedSearch = String(search || '')
+        .trim()
+        .toLowerCase();
+
     const filtered = blogs.filter((blog) => {
-        const matchesCategory = normalizedCategory === 'All' || blog.category === normalizedCategory;
+        const matchesCategory =
+            normalizedCategory === 'All' ||
+            blog.category === normalizedCategory;
+
         const matchesSearch =
             !normalizedSearch ||
             blog.title.toLowerCase().includes(normalizedSearch) ||
             blog.excerpt.toLowerCase().includes(normalizedSearch) ||
             blog.category.toLowerCase().includes(normalizedSearch);
+
         return matchesCategory && matchesSearch;
     });
 
     const pageSize = 6;
     const pageNumber = Number(page) || 1;
     const start = (pageNumber - 1) * pageSize;
-    const paginated = filtered.slice(start, start + pageSize);
+
+    const paginated = filtered.slice(
+        start,
+        start + pageSize
+    );
 
     res.json({
         blogs: paginated,
-        totalPages: Math.max(1, Math.ceil(filtered.length / pageSize)),
+        totalPages: Math.max(
+            1,
+            Math.ceil(filtered.length / pageSize)
+        ),
         page: pageNumber,
-        total: filtered.length,
+        total: filtered.length
     });
 });
 
+// ===============================
+// DEMO CATEGORIES
+// ===============================
 app.get('/api/categories', (req, res) => {
-    res.json({ categories });
+    res.json({
+        categories
+    });
 });
 
+// ===============================
+// DEMO BLOG BY SLUG
+// ===============================
 app.get('/api/blogs/:slug', (req, res) => {
-    const blog = blogs.find((item) => item.slug === req.params.slug);
+    const blog = blogs.find(
+        (item) => item.slug === req.params.slug
+    );
+
     if (!blog) {
-        return res.status(404).json({ message: 'Blog not found' });
+        return res.status(404).json({
+            message: 'Blog not found'
+        });
     }
 
-    return res.json({ blog });
+    return res.json({
+        blog
+    });
 });
 
+// ===============================
+// API ROUTES
+// ===============================
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/blogs', require('./routes/blogRoutes'));
 app.use('/api/categories', require('./routes/categoryRoutes'));
 app.use('/api/comments', require('./routes/commentRoutes'));
 app.use('/api/contact', require('./routes/contactRoutes'));
 
-mongoose.connect(process.env.MONGO_URI)
-    .then(() => {
-        console.log("MongoDB Connected Successfully");
-    })
-    .catch((error) => {
-        console.error("MongoDB Connection Error:", error);
+// ===============================
+// 404 HANDLER
+// ===============================
+app.use((req, res) => {
+    res.status(404).json({
+        success: false,
+        message: 'API route not found'
     });
+});
+
+// ===============================
+// ERROR HANDLER
+// ===============================
+app.use((err, req, res, next) => {
+    console.error('Server Error:', err);
+
+    res.status(err.status || 500).json({
+        success: false,
+        message: err.message || 'Internal Server Error'
+    });
+});
+
+// ===============================
+// START SERVER
+// ===============================
 const PORT = Number(process.env.PORT) || 5000;
+
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT}`);
 });
