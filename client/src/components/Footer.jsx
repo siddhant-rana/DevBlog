@@ -23,15 +23,17 @@ const Footer = () => {
                         <li><Link to="/blogs" className="hover:text-cyan-300">Latest articles</Link></li>
                         <li><Link to="/categories" className="hover:text-cyan-300">Categories</Link></li>
                         <li><Link to="/about" className="hover:text-cyan-300">About</Link></li>
+                        <li><Link to="/contact" className="hover:text-cyan-300">For Create Your Website</Link></li>
                     </ul>
                 </div>
 
                 <div>
                     <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-slate-300">Connect</h3>
                     <ul className="space-y-3 text-sm text-slate-400">
-                        <li><a href="mailto:hello@devblog.com" className="hover:text-cyan-300">hello@devblog.com</a></li>
-                        <li><a href="https://x.com" target="_blank" rel="noreferrer" className="hover:text-cyan-300">Twitter</a></li>
-                        <li><a href="https://github.com" target="_blank" rel="noreferrer" className="hover:text-cyan-300">GitHub</a></li>
+                        <li><a href="mailto:siddhantrana452@gmail.com" className="hover:text-cyan-300">siddhantrana452@gmail.com</a></li>
+                        <li><a href="https://www.instagram.com/programmingwithrana?stkn=MXFqOHFndTk5bXVucg==" target="_blank" rel="noreferrer" className="hover:text-cyan-300">Instagram</a></li>
+                        <li><a href="https://github.com/siddhant-rana" target="_blank" rel="noreferrer" className="hover:text-cyan-300">GitHub</a></li>
+                        <li><a href="https://wa.me/9628741359" target="_blank" rel="noreferrer" className="hover:text-cyan-300">WhatsApp</a></li>
                     </ul>
                 </div>
             </div>

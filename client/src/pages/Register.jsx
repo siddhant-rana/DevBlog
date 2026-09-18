@@ -61,6 +61,7 @@ const Register = () => {
                         placeholder="Password"
                         value={form.password}
                         onChange={handleChange}
+                        minLength={8}
                         required
                     />
                     <button type="submit" disabled={loading} className="w-full rounded-full bg-cyan-500 px-5 py-3 font-semibold text-slate-950 transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:opacity-60">
