@@ -8,13 +8,24 @@ dotenv.config();
 
 const app = express();
 
-// ===============================
-// CORS
-// ===============================
+const allowedOrigins = [
+    process.env.CLIENT_URL,
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'https://devblog-2-y4e2.onrender.com',
+].filter(Boolean);
+
 app.use(
     cors({
-        origin: 'https://devblog-2-y4e2.onrender.com',
-        credentials: true
+        origin: (origin, callback) => {
+            if (!origin || allowedOrigins.includes(origin)) {
+                callback(null, true);
+                return;
+            }
+
+            callback(new Error('Not allowed by CORS'));
+        },
+        credentials: true,
     })
 );
 

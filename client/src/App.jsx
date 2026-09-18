@@ -13,6 +13,7 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Profile from './pages/Profile';
 import CreateBlog from './pages/CreateBlog';
 import EditBlog from './pages/EditBlog';
 import MyBlogs from './pages/MyBlogs';
@@ -35,6 +36,14 @@ const App = () => {
                                 <Route path="/contact" element={<Contact />} />
                                 <Route path="/login" element={<Login />} />
                                 <Route path="/register" element={<Register />} />
+                                <Route
+                                    path="/profile"
+                                    element={
+                                        <ProtectedRoute>
+                                            <Profile />
+                                        </ProtectedRoute>
+                                    }
+                                />
                                 <Route
                                     path="/create-blog"
                                     element={

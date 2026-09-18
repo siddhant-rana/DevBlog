@@ -51,6 +51,9 @@ const Navbar = () => {
                 <div className="flex items-center gap-2 sm:gap-3">
                     {isAuthenticated ? (
                         <>
+                            <Link to="/profile" className="hidden text-sm text-slate-300 transition hover:text-white sm:inline-block">
+                                Profile
+                            </Link>
                             <Link to="/my-blogs" className="hidden text-sm text-slate-300 transition hover:text-white sm:inline-block">
                                 My Blogs
                             </Link>
@@ -104,9 +107,14 @@ const Navbar = () => {
                                 </NavLink>
                             ))}
                             {isAuthenticated ? (
-                                <Link to="/my-blogs" onClick={closeMenu} className="rounded-xl px-3 py-2.5 text-sm text-slate-300 hover:bg-slate-900 hover:text-white">
-                                    My Blogs
-                                </Link>
+                                <>
+                                    <Link to="/profile" onClick={closeMenu} className="rounded-xl px-3 py-2.5 text-sm text-slate-300 hover:bg-slate-900 hover:text-white">
+                                        Profile
+                                    </Link>
+                                    <Link to="/my-blogs" onClick={closeMenu} className="rounded-xl px-3 py-2.5 text-sm text-slate-300 hover:bg-slate-900 hover:text-white">
+                                        My Blogs
+                                    </Link>
+                                </>
                             ) : (
                                 <Link to="/login" onClick={closeMenu} className="rounded-xl px-3 py-2.5 text-sm text-slate-300 hover:bg-slate-900 hover:text-white">
                                     Log in
